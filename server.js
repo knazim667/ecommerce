@@ -1,11 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 
 
 
 
 const app = express();
+
+//Connect to mongoose db
+mongoose.connect('mongodb://knazim667:Salman007@ds217125.mlab.com:17125/ecommerce', function(err){
+    if(err){
+        console.log(err);
+    } else{
+        console.log("Connected to Database");
+    }
+})
 
 //Middlware
 app.use(morgan('dev'));
