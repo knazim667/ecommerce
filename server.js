@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 
+const User = require('./models/user');
 
 
 
@@ -19,16 +21,21 @@ mongoose.connect('mongodb://knazim667:Salman007@ds217125.mlab.com:17125/ecommerc
 
 //Middlware
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 
-app.get('/', (req, res) => {
+app.post('/register', (req, res, next) =>{
+    const user = new User();
 
-    const name = "Nazam";
-    res.json("My Name is " + name);
-});
+    user.profile.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
 
-app.get('/name', (req, res) => {
-    res.json("My Name is Nazam");
+    user.save(function(err) {
+        if(err) next(err);
+        res.json('Succesfully created a new User');
+    });
 });
 
 app.listen(3000, function(err) {
