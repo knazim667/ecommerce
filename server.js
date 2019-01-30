@@ -33,7 +33,7 @@ app.post('/register', (req, res, next) =>{
     user.password = req.body.password;
 
     user.save(function(err) {
-        if(err) next(err);
+        if(err) return next(err);
         res.json('Succesfully created a new User');
     });
 });
